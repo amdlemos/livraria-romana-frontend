@@ -1,0 +1,26 @@
+ 
+<h1 class="display-4 text-center">Livraria Romana</h1>
+<header class='navbar navbar-expand navbar-dark flex-column flex-md-row bd-navbar bg-dark'>
+  <a class="navbar-brand mr-0 mr-md-2" routerLink=""><i class="fas fa-home"></i></a>
+  <nav class="navbar-nav-scroll">
+    <ul id="menu" class="navbar-nav bd-navbar-nav flex-row">
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" routerLink="/user" >Usuário</a>       
+      </li>
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" routerLink="/book" >Livro</a>            
+      </li> 
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" routerLink="/login"  class="nav-link">Login</a>
+      </li>
+       <li class="nav-item">
+        <button (click)="logout()">Logout</button>        
+      </li>
+    </ul>
+  </nav>
+</header>  
+<hr>
+
+<div class="container">   
+  <router-outlet></router-outlet>  
+</div>

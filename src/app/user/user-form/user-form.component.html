@@ -1,0 +1,64 @@
+<form #form="ngForm" autocomplete="off" (ngSubmit)="onSubmit(form)">
+    <input id="id" name="id" type="hidden" [(ngModel)]="service.formData.id" >
+    <input id="token" name="token" type="hidden" [(ngModel)]="service.formData.token" >
+    <div class="form-group">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <div class="input-group-text bg-white">
+                    <i class="fas fa-pen" [class.green-icon]="username.valid && username.touched" [class.red-icon]="username.invalid && username.touched" ></i>
+                </div>
+            </div>
+            <input 
+                #username="ngModel" 
+                id="username" 
+                name="username" 
+                type="text"                 
+                [(ngModel)]="service.formData.username" 
+                class="form-control" 
+                maxlength="150" 
+                placeholder="Nome (obrigatório)" 
+                required>
+        </div>        
+    </div>
+    <div class="form-group">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <div class="input-group-text bg-white">
+                    <i class="fas fa-pen" [class.green-icon]="password.valid && password.touched" [class.red-icon]="password.invalid && password.touched" ></i>
+                </div>
+            </div>
+            <input 
+                #password="ngModel" 
+                id="password" 
+                name="password"  
+                type="text" 
+                [(ngModel)]="service.formData.password" 
+                class="form-control" 
+                maxlength="30" 
+                placeholder="Senha (obrigatório)" 
+                required>
+        </div>        
+    </div>
+    <div class="form-group">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <div class="input-group-text bg-white">
+                    <i class="fas fa-pen" [class.green-icon]="email.valid && email.touched" [class.red-icon]="email.invalid && email.touched" ></i>
+                </div>
+            </div>
+            <input 
+                #email="ngModel" 
+                id="email" 
+                name="email"                 
+                [(ngModel)]="service.formData.email" 
+                class="form-control" 
+                maxlength="30" 
+                placeholder="nome@email.com (opcional)"                 
+                required>
+        </div>        
+    </div>
+    <div class="form-group">
+        <button type="reset" class="btn btn-block btn-lg btn-primary" (click)="resetForm()"><i class="fas fa-plus"></i>  Novo</button>
+        <button type="submit" [disabled]="form.invalid" class="btn btn-success btn-lg btn-block"><i class="fas fa-database"></i>    Salvar</button>
+    </div>   
+</form>

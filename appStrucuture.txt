@@ -1,0 +1,20 @@
+● src
++---● app
+|   +--● livro
+|   |  |--livro.component.ts|.html|.css
+|   |  +--● livro
+|   |  |  |--livro.component.ts|.html|.css
+|   |  |
+|   |  +--● livro-list
+|   |  |  |--livro-list.component.ts|.html|.css
+|   |  |
+|   |  +--● shared
+|   |     |--livro.service.ts
+|   |     |--livro.model.ts
+|   |
+|   |--app.module.ts
+|
+|--index.html (cdn path for bootstrap & fa icons)
+
+
+                  

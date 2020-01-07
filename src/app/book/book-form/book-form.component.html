@@ -1,0 +1,67 @@
+<form #form="ngForm" autocomplete="off" (submit)="onSubmit(form)">
+    <input type="hidden" name="id" #id [(ngModel)]="service.formData.id">    
+    <div class="form-group">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <div class="input-group-text bg-white">
+                    <i class="fas fa-pen" [class.green-icon]="author.valid && author.touched" [class.red-icon]="author.invalid && author.touched"></i>
+                </div>
+            </div>
+            <input name="author" #author="ngModel" [(ngModel)]="service.formData.author" class="form-control" maxlength="150" placeholder="Autor (obrigatório)" required>
+        </div>                
+    </div>
+    <div class="form-group">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <div class="input-group-text bg-white">
+                    <i class="fas fa-pen" [class.green-icon]="title.valid && title.touched" [class.red-icon]="title.invalid && title.touched"></i>
+                </div>
+            </div>
+            <input name="title" #title="ngModel" [(ngModel)]="service.formData.title" class="form-control" maxlength="150" placeholder="Titulo (obrigatório)" required>
+        </div>                
+    </div>
+    <div class="form-group">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <div class="input-group-text bg-white">
+                    <i class="fas fa-pen" [class.green-icon]="originalTitle.valid && originalTitle.touched" [class.red-icon]="originalTitle.invalid && originalTitle.touched"></i>
+                </div>
+            </div>
+            <input name="originalTitle" #originalTitle="ngModel" [(ngModel)]="service.formData.originalTitle" class="form-control" maxlength="150" placeholder="Titulo Original (opcional)">
+        </div>                
+    </div>
+    <div class="form-group">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <div class="input-group-text bg-white">
+                    <i class="fas fa-pen" [class.green-icon]="publishingCompany.valid && publishingCompany.touched" [class.red-icon]="publishingCompany.invalid && publishingCompany.touched"></i>
+                </div>
+            </div>
+            <input name="publishingCompany" #publishingCompany="ngModel" [(ngModel)]="service.formData.publishingCompany" class="form-control" maxlength="150" placeholder="Editora (opcional)">
+        </div>                
+    </div>
+    <div class="form-group">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <div class="input-group-text bg-white">
+                    <i class="fas fa-pen" [class.green-icon]="ISBN.valid && ISBN.touched" [class.red-icon]="ISBN.invalid && ISBN.touched"></i>
+                </div>
+            </div>
+            <input name="ISBN" #ISBN="ngModel" [(ngModel)]="service.formData.ISBN" class="form-control" placeholder="ISBN (opcional)">
+        </div>                
+    </div>
+    <div class="form-group">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <div class="input-group-text bg-white">
+                    <i class="fas fa-pen" [class.green-icon]="publicationYear.valid && publicationYear.touched" [class.red-icon]="publicationYear.invalid && publicationYear.touched" ></i>
+                </div>
+            </div>
+            <input name="publicationYear" #publicationYear="ngModel" [(ngModel)]="service.formData.publicationYear" class="form-control" placeholder="Ano de Publicação (opcional)">
+        </div>                
+    </div>    
+    <div class="form-group">        
+        <button type="reset" class="btn btn-block btn-lg btn-primary" (click)="resetForm()"><i class="fas fa-plus"></i>  Novo</button>
+        <button type="submit" [disabled]="form.invalid" class="btn btn-success btn-lg btn-block"><i class="fas fa-database"></i>    Salvar</button>
+    </div>    
+</form>
