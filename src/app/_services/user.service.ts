@@ -8,6 +8,7 @@ import { take } from 'rxjs/operators';
 import { User } from '../_models/user.model';
 import { CrudService } from './crud.service';
 import { environment } from 'src/environments/environment';
+import { HttpErrorHandler } from './http-error-handler.service';
 
 const httpOptions = {
   headers: new HttpHeaders({

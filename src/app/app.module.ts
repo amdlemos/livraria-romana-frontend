@@ -1,21 +1,25 @@
 // angular
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes } from '@angular/router';
+
 // ngx-toastr
 import { ToastrModule } from 'ngx-toastr';
+import { ModalModule } from 'ngx-bootstrap/modal';
+import { NgxSpinnerModule } from 'ngx-spinner';
+
 // app components
 import { AppComponent } from './app.component';
-import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { AppRouting } from './app.routing';
 // book
 import { BookComponent } from './book/book.component';
 import { BookFormComponent } from './book/book-form/book-form.component';
 import { BookListComponent } from './book/book-list/book-list.component';
+import { BookDetailComponent } from './book/book-detail/book-detail.component';
 // user
 import { UserComponent } from './user/user.component';
 import { UserFormComponent } from './user/user-form/user-form.component';
@@ -28,22 +32,31 @@ import { AuthService } from './_services/auth.service';
 import { AuthInterceptor } from './_services/auth-interceptor.service';
 import { AuthGuard } from './_services/auth-guard.service';
 import { CrudService} from './_services/crud.service';
-
+import { LoginFormComponent } from './login-form/login-form.component';
+import { FormDebugComponent } from './form-debug/form-debug.component';
+import { FieldErrorControlComponent } from './field-error-control/field-error-control.component';
+import { BookListItemComponent } from './book/book-list-item/book-list-item.component';
 
 @NgModule({
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,    
-    HttpClientModule,        
-    ToastrModule.forRoot(),
-    //routing,
-    AppRouting
+    HttpClientModule,     
+    NgxSpinnerModule,
+    ToastrModule.forRoot({      
+      positionClass: 'toast-center-center',
+      timeOut: 3000, 
+      closeButton: true, 
+      progressBar: true     
+      }),
+      ModalModule.forRoot(),
+    ReactiveFormsModule,    
+    AppRouting, ModalModule.forRoot()
   ],
   exports: [RouterModule],
   declarations: [
-    AppComponent,
-    LoginComponent,
+    AppComponent,   
     HomeComponent,    
     // book
     BookComponent,
@@ -53,9 +66,14 @@ import { CrudService} from './_services/crud.service';
     UserComponent,
     UserFormComponent,
     UserListComponent,
+    LoginFormComponent,
+    FormDebugComponent,
+    FieldErrorControlComponent,
+    BookDetailComponent,
+    BookListItemComponent,
   ],   
   bootstrap: [AppComponent],
-  providers: [
+  providers: [    
     CrudService,
     BookService,
     UserService,

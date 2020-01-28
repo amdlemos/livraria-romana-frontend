@@ -1,19 +1,43 @@
-
+<!-- <a class="nav-link" routerLink="/bookForm"  class="nav-link">Adicionar</a>
 <table class="table table-striped">    
     <thead>
         <tr>      
             <th scope="col">Titulo</th>
             <th scope="col">Autor</th>      
-            <th scope="col">Excluir</th>           
+            <th scope="col">Publicação</th>      
+            <th scope="col">Editora</th>      
+            <th scope="col">Editar</th>           
         </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let book of service.list">        
-        <td (click)="populateForm(book)">{{book.title}}</td>
-        <td (click)="populateForm(book)">{{book.author}}</td>        
+    <tr *ngFor="let book of this.books">        
+        <td >{{book.title}}</td>
+        <td >{{book.author}}</td>               
+        <td >{{book.publicationYear}}</td>               
+        <td >{{book.publihingYear}}</td>               
         <td>
-            <i class="far fa-trash-alt fa-lg text-danger align-center" (click)="onDelete(book.id)"></i>
+            <a class="nav-link" [routerLink]="['/book', book.id]" class="nav-link">Editar</a>            
         </td>
     </tr>
 </tbody>
-</table>
+</table> -->
+  <p>
+    Exibindo {{ books?.length }} livros.
+  </p>
+  
+  <div class="collection">
+    <app-book-list-item
+      *ngFor="let book of this.books"
+      [book]="book">
+    </app-book-list-item>
+  </div>
+  
+  <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
+    <a class="btn-floating btn-large waves-effect waves-light green"
+       routerLink="new">
+      <i class="material-icons">add</i>
+    </a>
+  </div>
+  <div class="col s7">
+    <router-outlet></router-outlet>
+  </div>

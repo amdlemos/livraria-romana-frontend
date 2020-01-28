@@ -1,9 +1,11 @@
+// import { Observable } from 'rxjs';
 // angular
-import { NgForm } from '@angular/forms';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 // rxjs./message.service
-import { take } from 'rxjs/operators';
+import { take, catchError } from 'rxjs/operators';
+import { HandleError, HttpErrorHandler } from './http-error-handler.service';
+import { Observable, pipe } from 'rxjs';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -13,8 +15,10 @@ const httpOptions = {
 
 @Injectable()
 export class CrudService<T> {  
-  
-  constructor(protected http:HttpClient, private API_URL: string) { }
+
+  constructor(
+    protected http:HttpClient,    
+    private API_URL: string) {}
 
   add(record: T) {    
     console.log(record);        
@@ -26,15 +30,15 @@ export class CrudService<T> {
   }
 
   delete(id){   
-    return this.http.delete(`${this.API_URL}/${id}`).pipe(take(1));
+    return this.http.delete(`${this.API_URL}/${id}`);
   }
 
-  get(id){
-    return this.http.get<T>(this.API_URL, id);
+  get(id){        
+    return this.http.get<T>(`${this.API_URL}/${id}`).pipe(take(1));       
   }  
 
-  getAll(){
-    return this.http.get<T[]>(this.API_URL);
+  getAll() :Observable<T[]> {    
+    return this.http.get<T[]>(this.API_URL).pipe(take(1));
   }
 
   

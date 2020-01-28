@@ -1,50 +1,35 @@
+import { Book } from './../../_models/book.model';
 // angular
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 // ngx-toastr
 import { ToastrService } from 'ngx-toastr';
-// rxjs
-import { Observable, empty } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 // app
 import { BookService } from 'src/app/_services/book.service';
-import { Book } from '../../_models/book.model';
-import { FormGroup } from '@angular/forms';
-
-
 
 @Component({
   selector: 'app-livro-list',
   templateUrl: './book-list.component.html',
   styles: []
 })
+
 export class BookListComponent implements OnInit {
+  
+  modalRef: BsModalRef;
   form: FormGroup;
-  constructor(private service: BookService, private toastr: ToastrService) { }  
+  books: Book[];  
+  constructor(private service: BookService, private toastr: ToastrService, private modalService: BsModalService) { }
 
   ngOnInit() {
-    this.onRefresh();   
-  }
+    this.service.getAll().toPromise().then(data => this.books = data as Book[], err => {
+      alert("algo aconteceu");
+    });
 
-  onRefresh() {    
-    this.service.getAll().pipe().toPromise().then(res => this.service.list = res as Book[]);
-  };
-
-  populateForm(book: Book){       
-    this.service.formData = Object.assign({}, book);
-    this.service.autorFocus();    
-  };
-
-  onDelete(LivroId) {    
-    if(confirm('Tem certeza que deseja apagar o registro?')){
-      this.service.delete(LivroId)
-      .subscribe(res => {
-        this.service.resetForm();
-        this.service.refreshList();
-        this.toastr.warning("Excluido com sucesso", "Registro de Livros");
-      },
-        err => {
-          console.log(err);
-        })
-    }
-  };
+    this.service.booksChanged.subscribe(
+      (observable: any) => observable.subscribe(
+        data => this.books = data
+      )
+    );    
+  } 
 }

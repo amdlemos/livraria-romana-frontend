@@ -1,67 +1,169 @@
-<form #form="ngForm" autocomplete="off" (submit)="onSubmit(form)">
-    <input type="hidden" name="id" #id [(ngModel)]="service.formData.id">    
+<div class="row" *ngIf="book">
+<form class="form-horizontal" [formGroup]="form" (ngSubmit)="onSave()">
+    
+    <!-- Form Group -->
     <div class="form-group">
-        <div class="input-group">
-            <div class="input-group-prepend">
-                <div class="input-group-text bg-white">
-                    <i class="fas fa-pen" [class.green-icon]="author.valid && author.touched" [class.red-icon]="author.invalid && author.touched"></i>
-                </div>
+
+        <!-- Author -->
+        <div class="form-group" [ngClass]="applyCssError('author')">
+            <div class="col-sm-12">
+                <label for="author" class="control-label">Autor</label>
             </div>
-            <input name="author" #author="ngModel" [(ngModel)]="service.formData.author" class="form-control" maxlength="150" placeholder="Autor (obrigatório)" required>
-        </div>                
+            <div class="col-sm-12">
+                <input id="username" type="text" class="form-control" formControlName="author"
+                [(ngModel)]="book.author"  >
+                <!-- CSS Error -->
+                <app-field-error-control [showError]="checkValidTouched('author')" msgError="Autor é obrigatório.">
+                </app-field-error-control>
+            </div>
+        </div>
+
+        <!-- Titulo -->
+        <div class="form-group" [ngClass]="applyCssError('title')">
+            <div class="col-sm-12">
+                <label for="title" class="control-label">Titulo</label>
+            </div>
+            <div class="col-sm-12">
+                <input id="title" type="text" class="form-control" formControlName="title"
+                [(ngModel)]="book.title"  >
+                <!-- CSS Error -->
+                <app-field-error-control [showError]="checkValidTouched('title')" msgError="Titulo é obrigatório.">
+                </app-field-error-control>
+            </div>
+        </div>
+
+        <!-- Editora -->
+        <div class="form-group" [ngClass]="applyCssError('publishingCompany')">
+            <div class="col-sm-12">
+                <label for="publishingCompany" class="control-label">Editora</label>
+            </div>
+            <div class="col-sm-12">
+                <input id="publishingCompany" type="text" class="form-control" formControlName="publishingCompany" 
+                [(ngModel)]="book.publishingCompany"  >
+
+            </div>
+        </div>
+
+        <!-- ISBN -->
+        <div class="form-group" [ngClass]="applyCssError('isbn')">
+            <div class="col-sm-12">
+                <label for="isbn" class="control-label">ISBN</label>
+            </div>
+            <div class="col-sm-12">
+                <input id="isbn" type="text" class="form-control" formControlName="isbn" 
+                placeholder="ISBN 978-85-333-0227-3"
+                [(ngModel)]="book.isbn">           
+            </div>
+        </div>
+
+        <!-- Ano de Publicação -->
+        <div class="form-group" [ngClass]="applyCssError('publicationYear')">
+            <div class="col-sm-12">
+                <label for="publicationYear" class="control-label">Ano de Publicação</label>
+            </div>
+            <div class="col-sm-12">
+                <input id="publicationYear" type="text" class="form-control" formControlName="publicationYear" 
+                    placeholder="Exemplo: 2015"
+                    [(ngModel)]="book.publicationYear">           
+            </div>
+        </div>
     </div>
-    <div class="form-group">
-        <div class="input-group">
-            <div class="input-group-prepend">
-                <div class="input-group-text bg-white">
-                    <i class="fas fa-pen" [class.green-icon]="title.valid && title.touched" [class.red-icon]="title.invalid && title.touched"></i>
-                </div>
-            </div>
-            <input name="title" #title="ngModel" [(ngModel)]="service.formData.title" class="form-control" maxlength="150" placeholder="Titulo (obrigatório)" required>
-        </div>                
+      <!-- Submit -->
+      <div class="form-group">
+        <div class="col-sm-12">
+            <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Salvar</button>
+        </div>
     </div>
-    <div class="form-group">
-        <div class="input-group">
-            <div class="input-group-prepend">
-                <div class="input-group-text bg-white">
-                    <i class="fas fa-pen" [class.green-icon]="originalTitle.valid && originalTitle.touched" [class.red-icon]="originalTitle.invalid && originalTitle.touched"></i>
-                </div>
-            </div>
-            <input name="originalTitle" #originalTitle="ngModel" [(ngModel)]="service.formData.originalTitle" class="form-control" maxlength="150" placeholder="Titulo Original (opcional)">
-        </div>                
-    </div>
-    <div class="form-group">
-        <div class="input-group">
-            <div class="input-group-prepend">
-                <div class="input-group-text bg-white">
-                    <i class="fas fa-pen" [class.green-icon]="publishingCompany.valid && publishingCompany.touched" [class.red-icon]="publishingCompany.invalid && publishingCompany.touched"></i>
-                </div>
-            </div>
-            <input name="publishingCompany" #publishingCompany="ngModel" [(ngModel)]="service.formData.publishingCompany" class="form-control" maxlength="150" placeholder="Editora (opcional)">
-        </div>                
-    </div>
-    <div class="form-group">
-        <div class="input-group">
-            <div class="input-group-prepend">
-                <div class="input-group-text bg-white">
-                    <i class="fas fa-pen" [class.green-icon]="ISBN.valid && ISBN.touched" [class.red-icon]="ISBN.invalid && ISBN.touched"></i>
-                </div>
-            </div>
-            <input name="ISBN" #ISBN="ngModel" [(ngModel)]="service.formData.ISBN" class="form-control" placeholder="ISBN (opcional)">
-        </div>                
-    </div>
-    <div class="form-group">
-        <div class="input-group">
-            <div class="input-group-prepend">
-                <div class="input-group-text bg-white">
-                    <i class="fas fa-pen" [class.green-icon]="publicationYear.valid && publicationYear.touched" [class.red-icon]="publicationYear.invalid && publicationYear.touched" ></i>
-                </div>
-            </div>
-            <input name="publicationYear" #publicationYear="ngModel" [(ngModel)]="service.formData.publicationYear" class="form-control" placeholder="Ano de Publicação (opcional)">
-        </div>                
-    </div>    
-    <div class="form-group">        
-        <button type="reset" class="btn btn-block btn-lg btn-primary" (click)="resetForm()"><i class="fas fa-plus"></i>  Novo</button>
-        <button type="submit" [disabled]="form.invalid" class="btn btn-success btn-lg btn-block"><i class="fas fa-database"></i>    Salvar</button>
-    </div>    
+
 </form>
+</div>
+<!-- Spinner -->
+<ngx-spinner
+  bdColor="rgba(51,51,51,0.8)"
+  size="medium"
+  color="#fff"
+  type="ball-scale-multiple"
+>
+  <p style="font-size: 20px; color: white">Carregando...</p>
+</ngx-spinner>
+
+<!-- <form #form="ngForm" autocomplete="off" (submit)="onSubmit(form)">
+    <input type="hidden" name="id" #id [(ngModel)]="service.formData.id"> -->
+<!-- <div class="form-group">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <div class="input-group-text bg-white">
+                    <i class="fas fa-pen" [class.green-icon]="author.valid && author.touched"
+                        [class.red-icon]="author.invalid && author.touched"></i>
+                </div>
+            </div>
+            <input name="author" #author="ngModel" [(ngModel)]="service.formData.author" class="form-control"
+                maxlength="150" placeholder="Autor (obrigatório)" required>
+        </div>
+    </div> -->
+<!-- <div class="form-group">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <div class="input-group-text bg-white">
+                    <i class="fas fa-pen" [class.green-icon]="title.valid && title.touched"
+                        [class.red-icon]="title.invalid && title.touched"></i>
+                </div>
+            </div>
+            <input name="title" #title="ngModel" [(ngModel)]="service.formData.title" class="form-control"
+                maxlength="150" placeholder="Titulo (obrigatório)" required>
+        </div>
+    </div> -->
+<!-- <div class="form-group">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <div class="input-group-text bg-white">
+                    <i class="fas fa-pen" [class.green-icon]="originalTitle.valid && originalTitle.touched"
+                        [class.red-icon]="originalTitle.invalid && originalTitle.touched"></i>
+                </div>
+            </div>
+            <input name="originalTitle" #originalTitle="ngModel" [(ngModel)]="service.formData.originalTitle"
+                class="form-control" maxlength="150" placeholder="Titulo Original (opcional)">
+        </div>
+    </div> -->
+<!-- <div class="form-group">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <div class="input-group-text bg-white">
+                    <i class="fas fa-pen" [class.green-icon]="publishingCompany.valid && publishingCompany.touched"
+                        [class.red-icon]="publishingCompany.invalid && publishingCompany.touched"></i>
+                </div>
+            </div>
+            <input name="publishingCompany" #publishingCompany="ngModel"
+                [(ngModel)]="service.formData.publishingCompany" class="form-control" maxlength="150"
+                placeholder="Editora (opcional)">
+        </div>
+    </div> -->
+<!-- <div class="form-group">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <div class="input-group-text bg-white">
+                    <i class="fas fa-pen" [class.green-icon]="ISBN.valid && ISBN.touched"
+                        [class.red-icon]="ISBN.invalid && ISBN.touched"></i>
+                </div>
+            </div>
+            <input name="ISBN" #ISBN="ngModel" [(ngModel)]="service.formData.ISBN" class="form-control"
+                placeholder="ISBN (opcional)">
+        </div>
+    </div> -->
+<!-- <div class="form-group">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <div class="input-group-text bg-white">
+                    <i class="fas fa-pen" [class.green-icon]="publicationYear.valid && publicationYear.touched"
+                        [class.red-icon]="publicationYear.invalid && publicationYear.touched"></i>
+                </div>
+            </div>
+            <input name="publicationYear" #publicationYear="ngModel" [(ngModel)]="service.formData.publicationYear"
+                class="form-control" placeholder="Ano de Publicação (opcional)">
+        </div>
+    </div>
+    <div class="form-group">
+        <button type="reset" class="btn btn-block btn-lg btn-primary" (click)="resetForm()"><i class="fas fa-plus"></i>
+            Novo</button>
+        <button type="submit" [disabled]="form.invalid" class="btn btn-success btn-lg btn-block"><i
+                class="fas fa-database"></i> Salvar</button> -->

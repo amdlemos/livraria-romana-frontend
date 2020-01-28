@@ -1,6 +1,7 @@
 // angular
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
 // rxjs
 import { tap, shareReplay, take } from 'rxjs/operators';
 // jwt
@@ -39,10 +40,9 @@ export class AuthService {
     }
    
 
-    login(username: string, password: string) {        
-        console.log(this.http.post(this.apiRoot, { username, password }, httpOptions))  ;
-          
-        return this.http.post(this.apiRoot, { username, password }, httpOptions).pipe(
+    login(form: FormGroup) {        
+        console.log(form.value)  ;          
+        return this.http.post(this.apiRoot, form.value, httpOptions).pipe(
             tap(response => this.setSession(response)),
             shareReplay(),
           );
