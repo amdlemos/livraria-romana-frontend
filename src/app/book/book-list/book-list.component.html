@@ -1,32 +1,32 @@
-  <table class="striped" *ngIf="books$ | async as books; else loadingError">
-    <thead>
-      <tr>
-        <th>Titulo</th>
-        <th>Autor</th>
-        <th>Quantidade</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let book of this.books" [routerLink]="[book.id]" routerLinkActive="active">
-        <td>{{ book.author }}</td>
-        <td>{{ book.title }}</td>
-        <td>{{ book.amount }}</td>
-      </tr>
-    </tbody>
-  </table>
+<table class="striped" *ngIf="books$ | async as books; else loadingError">
+  <thead>
+    <tr>
+      <th>Titulo</th>
+      <th>Autor</th>
+      <th>Quantidade</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let book of this.books" [routerLink]="[book.id]" routerLinkActive="active">
+      <td>{{ book.author }}</td>
+      <td>{{ book.title }}</td>
+      <td>{{ book.amount }}</td>
+    </tr>
+  </tbody>
+</table>
 
-  <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
-    <a class="btn-floating btn-large waves-effect waves-light green" routerLink="new">
-      <i class="material-icons">add</i>
-    </a>
+<div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
+  <a class="btn-floating btn-large waves-effect waves-light green" routerLink="new">
+    <i class="material-icons">add</i>
+  </a>
+</div>
+
+
+<ng-template #loadingError>
+  <div *ngIf="error$ | async; else loading">
+    Erro ao carregar, tente novamente mais tarde.
   </div>
-  
-
-  <ng-template #loadingError>
-    <div *ngIf="error$ | async; else loading">
-      Erro ao carregar, tente novamente mais tarde. 
-    </div>
   <ng-template #loading>
     <span>Carregando...</span>
-  </ng-template>    
   </ng-template>
+</ng-template>

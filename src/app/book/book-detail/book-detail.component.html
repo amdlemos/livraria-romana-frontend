@@ -1,12 +1,15 @@
+<h5>Detalhes: </h5>
 <div class="row">
     <div class="col s12">
       <div class="card-panel">
         <div class="card-stacked">
-          <div class="card-content">
-            <p>Detalhes:</p>
+          <div class="card-content">           
             <p>#: {{ selectedBook?.id }}</p>            
             <p>Titulo: {{ selectedBook?.title }}</p>
             <p>Autor: {{ selectedBook?.author }}</p>            
+            <p>Ano de Publicação: {{ selectedBook?.publicationYear }}</p>            
+            <p>Editora: {{ selectedBook?.publishingCompany }}</p>            
+            <p>ISBN: {{ selectedBook?.isbn }}</p>                        
           </div>
           <div class="card-action">
             <a class="waves-effect waves-light btn"

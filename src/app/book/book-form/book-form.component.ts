@@ -16,7 +16,7 @@ import { Book } from './../../_models/book.model';
 
 
 @Component({
-  selector: 'app-book',
+  selector: 'app-book-form',
   templateUrl: './book-form.component.html',
   styles: []
 })
@@ -49,9 +49,10 @@ export class BookFormComponent implements OnInit {
           this.isNew = false;
           this.bookService.get(this.bookIndex).toPromise()
             .then(data => this.book = data);
-          this.title = 'Editar livro';
+          this.title = 'Editar';
         }else {
           this.isNew = true;
+          this.title = 'Novo';
           this.book = new Book();
         }
 

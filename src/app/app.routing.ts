@@ -24,9 +24,10 @@ const APP_ROUTES: Routes = [
     // book
     {
         path: 'book', component: BookComponent, canActivate: [AuthGuard], children: [
-            { path: ':id', component: BookDetailComponent },
             { path: 'new', component: BookFormComponent, canActivate: [AuthGuard], canDeactivate: [BookFormGuard] },
-            { path: ':id/edit', component: BookFormComponent, canDeactivate: [BookFormGuard] }
+            { path: ':id/edit', component: BookFormComponent, canDeactivate: [BookFormGuard] },
+            { path: ':id', component: BookDetailComponent }
+           
         ]
     },
     // errors 
