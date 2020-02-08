@@ -8,7 +8,7 @@ import { take } from 'rxjs/operators';
 import { User } from '../_models/user.model';
 import { CrudService } from './crud.service';
 import { environment } from 'src/environments/environment';
-import { HttpErrorHandler } from './http-error-handler.service';
+import { HttpHandlerError } from './http-handler-error.service';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -23,8 +23,10 @@ export class UserService extends CrudService<User> {
   list: User[];
   formData: User;
   
-  constructor(protected http:HttpClient) {
-    super(http, `${environment.API}user`);
+  constructor(
+    protected http:HttpClient,
+    protected handlerError: HttpHandlerError) {
+    super(http, `${environment.API}user`, handlerError);
   }
 
   refreshList(){

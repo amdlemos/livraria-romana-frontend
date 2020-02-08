@@ -1,3 +1,5 @@
+import { HttpErrorResponse } from '@angular/common/http';
+import { Login } from './../_models/login.model';
 // angular
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -6,7 +8,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 // app
-import { AuthService } from 'src/app/_services/auth.service';
+import { AuthService } from '../_services/auth.service';
 
 @Component({
   selector: 'app-login-form',
@@ -34,29 +36,28 @@ export class LoginFormComponent implements OnInit {
   }
 
   // Submit
-  onSubmit() {
-    
+  onSubmit() {    
     this.spinner.show();
-    console.log("submit");
-    
+    console.log("submit login");
+    console.log(this.form.value);
+
     // valida formulário
     if (this.form.valid) {
     
       // post
-      this.authService.login(this.form).subscribe(success => {
+      this.authService.login(this.form.value).subscribe(success => {
         this.router.navigate(['/book']);
-        console.log("sucess");   
+        console.log("sucess login");   
         this.spinner.hide();     
     
       },
-        (errorResponse: any) => {
-    
-          // verifica se há erros do servidor que possam ser exibidos         
-          if (errorResponse.error.hasNotifications) {                
+        (errorResponse: HttpErrorResponse) => {    
+          console.log("error login: backend");  
+          console.log(errorResponse);
 
+          // verifica se há erros do servidor que possam ser exibidos         
+          if (errorResponse.error.hasNotifications) {     
             this.spinner.hide();            
-            console.log("erros do servidor");    
-            console.log(errorResponse.error.notifications[0].message)
             // exibe erro
             this.toastr.error(errorResponse.error.notifications[0].message);
           }
@@ -64,7 +65,7 @@ export class LoginFormComponent implements OnInit {
         });
     }else{
       
-      console.log("formulário inválido");
+      console.log("error login: frontend");
       
       Object.keys(this.form.controls).forEach(field => {        
         const control = this.form.get(field);

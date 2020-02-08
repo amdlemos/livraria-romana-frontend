@@ -1,3 +1,4 @@
+import { catchError } from 'rxjs/operators';
 // angular
 import { Component, OnInit, ElementRef } from '@angular/core';
 import { NgForm } from '@angular/forms';
@@ -5,6 +6,7 @@ import { NgForm } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 // app
 import { UserService } from 'src/app/_services/user.service';
+import { empty } from 'rxjs';
 
 @Component({
   selector: 'app-usuario-form',
@@ -26,7 +28,7 @@ export class UserFormComponent implements OnInit {
   }
 
   onSubmit(form: NgForm){      
-    console.log(form);    
+    console.log("Submit usuário")
     if(form.value.id == 0 || form.value.id == null)  {      
       form.value.id = 0;
       this.add(form);
@@ -37,11 +39,18 @@ export class UserFormComponent implements OnInit {
 
   add(form: NgForm): void {       
     console.log(form);   
-    this.service.add(form.value).subscribe(
+    this.service.add(form.value)
+    .pipe(     
+      catchError(error => empty())      
+    )
+    .subscribe(
       res =>{        
         this.service.resetForm(form);
         this.toastr.success("Salvo com sucesso!", "Registro de Usuário");
         this.service.refreshList();
+      }, error => {
+        console.log(error.status);
+        this.toastr.error("erro");
       }        
     );
   }

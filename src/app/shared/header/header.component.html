@@ -1,0 +1,23 @@
+<div class="navbar-fixed" *ngIf="showNavBar">
+  <nav class="blue darken-3">
+    <div class="nav-wrapper">
+      <a class="brand-logo right" style="padding-left: 15px" routerLink="">
+        Livraria Romana
+      </a>
+      <ul id="nav-mobile" class="left">
+        <li routerLinkActive="active">
+          <a routerLink="/book">Livros</a>
+        </li>
+        <li routerLinkActive="active">
+          <a routerLink="/user">Usuários</a>
+        </li>
+        <li routerLinkActive="active" *ngIf="!isAuth()">
+          <a routerLink="/login">Login</a>
+        </li>
+        <li routerLinkActive="active" *ngIf="isAuth()">
+          <a (click)="onLogout()">Logout</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</div>

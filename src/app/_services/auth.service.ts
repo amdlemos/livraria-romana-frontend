@@ -1,5 +1,6 @@
+import { catchError } from 'rxjs/operators';
 // angular
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
 // rxjs
@@ -10,6 +11,9 @@ import * as moment from 'moment';
 // app
 import { Login } from 'src/app/_models/login.model';
 import { JWTPayload } from 'src/app/_models/jwtpayload.model';
+import { environment } from 'src/environments/environment';
+import { Subject, empty } from 'rxjs';
+import { Router } from '@angular/router';
 
 const httpOptions = {
     headers: new HttpHeaders({
@@ -19,45 +23,46 @@ const httpOptions = {
 
 @Injectable()
 export class AuthService {   
-    apiRoot = 'http://localhost:4726/api/login/';
-    formData: Login;
+    private readonly API = `${environment.API}login`;
+    
+    error$ = new Subject<boolean>();
 
-    constructor(private http: HttpClient) {
+    public showNavBarEmitter: EventEmitter<boolean> = new EventEmitter<boolean>();
+
+    private authenticated = false;
+
+    constructor(private http: HttpClient,private router: Router) {
       
-    }
-
-    private setSession(authResult) {
-        const token = authResult.token;
-        const payload = <JWTPayload>jwtDecode(token);
-        const expiresAt = moment.unix(payload.exp);
-
-        localStorage.setItem('token', authResult.token);
-        localStorage.setItem('expires_at', JSON.stringify(expiresAt.valueOf()));
-    }
-
-    get token(): string {
-        return localStorage.getItem('token');
-    }
-   
+    }   
 
     login(form: FormGroup) {        
-        console.log(form.value)  ;          
-        return this.http.post(this.apiRoot, form.value, httpOptions).pipe(
-            tap(response => this.setSession(response)),
+        console.log(form)  ;          
+        return this.http.post(this.API, form, httpOptions).pipe(            
+            tap(response => {
+                this.authenticated = true;
+                this.showNavBar(true);
+                this.setSession(response);
+            }),          
             shareReplay(),
+            catchError(error => {
+                this.error$.next(true);
+                return empty();
+            })
           );
     }
 
     logout() {
         localStorage.removeItem('token');
         localStorage.removeItem('expires_at');
+        this.showNavBar(false);     
+        this.router.navigate(['login']);  
      
     }
 
     refreshToken() {
         if (moment().isBetween(this.getExpiration().subtract(1, 'days'), this.getExpiration())) {
             return this.http.post(
-                this.apiRoot.concat('refresh-token/'),
+                this.API.concat('refresh-token/'),
                 { token: this.token }
             ).pipe(
                 tap(response => this.setSession(response)),
@@ -81,9 +86,25 @@ export class AuthService {
         return !this.isLoggedIn();
     }
 
-
-    nomeFocus() {
-        var input = document.getElementsByName("username")[0];
-        input.focus();
+    ifLoggedShowNavBar(){
+    if(this.isLoggedIn)
+      this.showNavBar(true);
     }
+
+    get token(): string {
+        return localStorage.getItem('token');
+    }
+
+    private setSession(authResult) {
+        const token = authResult.token;
+        const payload = <JWTPayload>jwtDecode(token);
+        const expiresAt = moment.unix(payload.exp);
+
+        localStorage.setItem('token', authResult.token);
+        localStorage.setItem('expires_at', JSON.stringify(expiresAt.valueOf()));
+    }
+
+    private showNavBar(ifShow: boolean) {
+        this.showNavBarEmitter.emit(ifShow);
+     }
 }

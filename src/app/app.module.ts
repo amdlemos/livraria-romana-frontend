@@ -1,3 +1,4 @@
+import { NotFoundComponent } from './shared/not-found.component';
 // angular
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -10,6 +11,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ToastrModule } from 'ngx-toastr';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { MaterializeModule } from 'angular2-materialize';
 
 // app components
 import { AppComponent } from './app.component';
@@ -20,13 +22,13 @@ import { BookComponent } from './book/book.component';
 import { BookFormComponent } from './book/book-form/book-form.component';
 import { BookListComponent } from './book/book-list/book-list.component';
 import { BookDetailComponent } from './book/book-detail/book-detail.component';
+import { BookFormGuard} from './book/book-form/book-form-guard'
 // user
 import { UserComponent } from './user/user.component';
 import { UserFormComponent } from './user/user-form/user-form.component';
 import { UserListComponent } from './user/user-list/user-list.component';
 // services
-import { UserService } from 'src/app/_services/user.service';
-import { LoginService } from './_services/login.service';
+import { UserService } from './_services/user.service';
 import { BookService } from './_services/book.service';
 import { AuthService } from './_services/auth.service';
 import { AuthInterceptor } from './_services/auth-interceptor.service';
@@ -35,7 +37,8 @@ import { CrudService} from './_services/crud.service';
 import { LoginFormComponent } from './login-form/login-form.component';
 import { FormDebugComponent } from './form-debug/form-debug.component';
 import { FieldErrorControlComponent } from './field-error-control/field-error-control.component';
-import { BookListItemComponent } from './book/book-list-item/book-list-item.component';
+import { HeaderComponent } from './shared/header/header.component';
+import { HttpHandlerError } from './_services/http-handler-error.service';
 
 @NgModule({
   imports: [
@@ -43,6 +46,7 @@ import { BookListItemComponent } from './book/book-list-item/book-list-item.comp
     BrowserAnimationsModule,
     FormsModule,    
     HttpClientModule,     
+    //MaterializeModule,
     NgxSpinnerModule,
     ToastrModule.forRoot({      
       positionClass: 'toast-center-center',
@@ -57,11 +61,11 @@ import { BookListItemComponent } from './book/book-list-item/book-list-item.comp
   exports: [RouterModule],
   declarations: [
     AppComponent,   
-    HomeComponent,    
+    HomeComponent,   
+    NotFoundComponent, 
     // book
-    BookComponent,
-    BookFormComponent,
-    BookListComponent,
+    BookComponent,    
+    BookFormComponent,    
     // user
     UserComponent,
     UserFormComponent,
@@ -70,17 +74,19 @@ import { BookListItemComponent } from './book/book-list-item/book-list-item.comp
     FormDebugComponent,
     FieldErrorControlComponent,
     BookDetailComponent,
-    BookListItemComponent,
+    BookListComponent,
+    HeaderComponent,
   ],   
   bootstrap: [AppComponent],
-  providers: [    
+  providers: [ 
+    BookFormGuard,   
     CrudService,
     BookService,
-    UserService,
-    LoginService,
+    UserService,    
     AuthService,
+    HttpHandlerError,
     AuthInterceptor,
-    AuthGuard, 
+    AuthGuard,     
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,

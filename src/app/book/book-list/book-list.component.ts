@@ -1,34 +1,44 @@
+import { HttpHandlerError } from './../../_services/http-handler-error.service';
+import { catchError } from 'rxjs/operators';
 import { Book } from './../../_models/book.model';
 // angular
 import { Component, OnInit, TemplateRef } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-// ngx-toastr
-import { ToastrService } from 'ngx-toastr';
-import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+
+
 // app
 import { BookService } from 'src/app/_services/book.service';
+import { Observable, empty, Subject } from 'rxjs';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
-  selector: 'app-livro-list',
+  selector: 'app-book-list',
   templateUrl: './book-list.component.html',
   styles: []
 })
 
-export class BookListComponent implements OnInit {
-  
-  modalRef: BsModalRef;
-  form: FormGroup;
-  books: Book[];  
-  constructor(private service: BookService, private toastr: ToastrService, private modalService: BsModalService) { }
+export class BookListComponent implements OnInit {  
+ 
+  books$: Observable<Book[]>;  
+  error$ = new Subject<boolean>();
+
+  constructor(
+    private bookService: BookService,
+    private handlerError: HttpHandlerError) { }
 
   ngOnInit() {
-    this.service.getAll().toPromise().then(data => this.books = data as Book[], err => {
-      alert("algo aconteceu");
-    });
+    this.books$ = this.bookService.getAll()
+      .pipe(
+        catchError(error => {         
+          this.handlerError.handlerError(error);
+          this.error$.next(true);
+          return empty();
+        })
+      ) 
+   
 
-    this.service.booksChanged.subscribe(
+    this.bookService.booksChanged.subscribe(
       (observable: any) => observable.subscribe(
-        data => this.books = data
+        data => this.books$ = data
       )
     );    
   } 

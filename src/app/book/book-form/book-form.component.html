@@ -1,8 +1,11 @@
-<div class="row" *ngIf="book">
+<div class="card-panel" *ngIf="book">
 <form class="form-horizontal" [formGroup]="form" (ngSubmit)="onSave()">
     
     <!-- Form Group -->
     <div class="form-group">
+
+        <input id="id" type="hidden" class="form-control" formControlName="id"
+        [(ngModel)]="book.id"  >
 
         <!-- Author -->
         <div class="form-group" [ngClass]="applyCssError('author')">
@@ -71,7 +74,7 @@
       <!-- Submit -->
       <div class="form-group">
         <div class="col-sm-12">
-            <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Salvar</button>
+            <button type="submit" (click)="onSave()" class="btn btn-primary" [disabled]="!form.valid">Salvar</button>
         </div>
     </div>
 
