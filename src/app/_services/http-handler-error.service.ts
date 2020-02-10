@@ -6,7 +6,8 @@ import { ToastrService } from "ngx-toastr";
 @Injectable()
 export class HttpHandlerError {
 
-    constructor(private toastr: ToastrService){ }
+    constructor(
+      private toastr: ToastrService){ }
 
     handlerError(errorResponse: HttpErrorResponse) {
         switch(errorResponse.status){
@@ -24,14 +25,12 @@ export class HttpHandlerError {
             break;
           default:
              // verifica se há erros do servidor que possam ser exibidos         
-             if (errorResponse.error.hasNotifications) {              
-              // exibe erro 
+             if (errorResponse.error.hasNotifications) {                            
               errorResponse.error.notifications.forEach(element => {
                 this.toastr.error(element.message)
-              });
-              //this.toastr.error(errorResponse.error.notifications[0].message);
+              });              
             }else{
-              console.log("não conseguiu tratar os erros do servidor");
+              console.log("Erro inesperado, verifique o log.");
             }           
         }
       }

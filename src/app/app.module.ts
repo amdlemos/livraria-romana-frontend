@@ -50,9 +50,8 @@ import { HttpHandlerError } from './_services/http-handler-error.service';
     NgxSpinnerModule,
     ToastrModule.forRoot({      
       positionClass: 'toast-center-center',
-      timeOut: 3000, 
-      closeButton: true, 
-      progressBar: true     
+      timeOut: 0, 
+      closeButton: true,       
       }),
       ModalModule.forRoot(),
     ReactiveFormsModule,    

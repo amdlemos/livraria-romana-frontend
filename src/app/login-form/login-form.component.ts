@@ -1,14 +1,14 @@
-import { HttpErrorResponse } from '@angular/common/http';
-import { Login } from './../_models/login.model';
 // angular
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
 // ngx
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 // app
 import { AuthService } from '../_services/auth.service';
+import { HttpHandlerError } from './../_services/http-handler-error.service';
 
 @Component({
   selector: 'app-login-form',
@@ -24,9 +24,9 @@ export class LoginFormComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private toastr: ToastrService,
-    private spinner: NgxSpinnerService) { }
-
-  // Inicio
+    private spinner: NgxSpinnerService,
+    private handlerError: HttpHandlerError) { }
+  
   ngOnInit() {
     // Cria o formulário com seus respectivos campos
       this.form = this.formBuilder.group({
@@ -38,45 +38,34 @@ export class LoginFormComponent implements OnInit {
   // Submit
   onSubmit() {    
     this.spinner.show();
-    console.log("submit login");
-    console.log(this.form.value);
-
+    console.log("submit login");    
+    
     // valida formulário
-    if (this.form.valid) {
-    
+    if (this.form.valid) {          
       // post
-      this.authService.login(this.form.value).subscribe(success => {
-        this.router.navigate(['/book']);
+      this.authService.login(this.form.value).subscribe(success => {               
+        // sucess 
         console.log("sucess login");   
-        this.spinner.hide();     
-    
+        this.router.navigate(['/book']);
+        this.spinner.hide();         
       },
-        (errorResponse: HttpErrorResponse) => {    
-          console.log("error login: backend");  
-          console.log(errorResponse);
-
-          // verifica se há erros do servidor que possam ser exibidos         
-          if (errorResponse.error.hasNotifications) {     
-            this.spinner.hide();            
-            // exibe erro
-            this.toastr.error(errorResponse.error.notifications[0].message);
-          }
-
-        });
-    }else{
-      
-      console.log("error login: frontend");
-      
+      (errorResponse: HttpErrorResponse) => {    
+        // backend error
+        console.log("error login: backend");            
+        this.handlerError.handlerError(errorResponse);  
+        this.spinner.hide();           
+      });
+    }else{      
+      // frontend error
+      console.log("error login: frontend");      
       Object.keys(this.form.controls).forEach(field => {        
         const control = this.form.get(field);
         control.markAsDirty();
         control.markAsTouched();        
       })
-
       this.spinner.hide();
     }
   }
-
 
   // verifica se determinado campo é invalido e se foi tocado
   checkValidTouched(field: string) {
@@ -84,16 +73,7 @@ export class LoginFormComponent implements OnInit {
     return !input.valid && input.touched;
   }
 
-  // verifica se é um email válido
-  // checkValidEmail() {   
-  //   let filedEmail = this.form.get('email');
-  //   console.log(filedEmail.errors);
-  //   if (filedEmail.errors) {
-  //     return filedEmail.errors['email'] && filedEmail.touched;
-  //   }
-  // }
-
-  // aplica css erro para inputs
+  // aplica css de erro 
   applyCssError(field: string) {
     if (field != null) {      
       return {

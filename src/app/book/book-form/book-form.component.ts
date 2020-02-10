@@ -24,7 +24,7 @@ import { Book } from './../../_models/book.model';
 export class BookFormComponent implements OnInit {
 
   form: FormGroup;
-  private bookIndex: number;
+  private bookId: number;
   private title: string;
   private isNew: boolean = true;
   private book: Book;
@@ -44,10 +44,10 @@ export class BookFormComponent implements OnInit {
     this.subscription = this.route.params.subscribe(
       (params: any) => {        
         // Verifica se é inclusão ou edição  
-        this.bookIndex = params['id'];              
-        if (this.bookIndex != null) {         
+        this.bookId = params['id'];              
+        if (this.bookId != null) {         
           this.isNew = false;
-          this.bookService.get(this.bookIndex).toPromise()
+          this.bookService.get(this.bookId).toPromise()
             .then(data => this.book = data);
           this.title = 'Editar';
         }else {
