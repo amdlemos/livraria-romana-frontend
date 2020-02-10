@@ -18,7 +18,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 
 export class BookListComponent implements OnInit {  
  
-  books$: Observable<Book[]>;  
+  books$: Book[];  
   error$ = new Subject<boolean>();
 
   constructor(
@@ -26,14 +26,14 @@ export class BookListComponent implements OnInit {
     private handlerError: HttpHandlerError) { }
 
   ngOnInit() {
-    this.books$ = this.bookService.getAll()
-      .pipe(
-        catchError(error => {         
-          this.handlerError.handlerError(error);
-          this.error$.next(true);
-          return empty();
-        })
-      ) 
+    this.bookService.getAll().subscribe(data => this.books$ = data);
+      // .pipe(
+      //   catchError(error => {         
+      //     this.handlerError.handlerError(error);
+      //     this.error$.next(true);
+      //     return empty();
+      //   })
+      // ) 
    
 
     this.bookService.booksChanged.subscribe(

@@ -24,4 +24,8 @@ export class BookService extends CrudService<Book> {
     protected handlerError: HttpHandlerError) { 
       super(http, `${environment.API}book`, handlerError );
   }
+
+  refreshList(){
+    this.booksChanged.emit(this.getAll());
+  }
 }

@@ -1,27 +1,29 @@
 <h5>Detalhes: </h5>
 <div class="row">
-    <div class="col s12">
-      <div class="card-panel">
-        <div class="card-stacked">
-          <div class="card-content">           
-            <p>#: {{ selectedBook?.id }}</p>            
-            <p>Titulo: {{ selectedBook?.title }}</p>
-            <p>Autor: {{ selectedBook?.author }}</p>            
-            <p>Ano de Publicação: {{ selectedBook?.publicationYear }}</p>            
-            <p>Editora: {{ selectedBook?.publishingCompany }}</p>            
-            <p>ISBN: {{ selectedBook?.isbn }}</p>                        
-          </div>
-          <div class="card-action">
-            <a class="waves-effect waves-light btn"
-              (click)="onEdit()">
-              <i class="material-icons left">mode_edit</i>Editar
-            </a>
-            <a class="waves-effect waves-light btn red"
-              (click)="onDelete()">
-              <i class="material-icons left">delete</i>Remover
-            </a>
-          </div>
+  <div class="col s12">
+    <div class="card-panel">
+      <div class="card-stacked">
+        <div class="card-content">
+          <p>#: {{ selectedBook?.id }}</p>
+          <p>Titulo: {{ selectedBook?.title }}</p>
+          <p>Autor: {{ selectedBook?.author }}</p>
+          <p>Ano de Publicação: {{ selectedBook?.publicationYear }}</p>
+          <p>Editora: {{ selectedBook?.publishingCompany }}</p>
+          <p>ISBN: {{ selectedBook?.isbn }}</p>
+        </div>
+        <div class="card-action">
+          <a class="waves-effect waves-light btn " (click)="onEdit()"> 
+            Editar
+          </a>
+          <a class="waves-effect waves-light btn blue " (click)="onCancel()">
+            Cancelar
+          </a>
+          <a class="waves-effect waves-light btn red " (click)="onDelete()">
+            Excluir
+          </a>
+        
         </div>
       </div>
     </div>
   </div>
+</div>

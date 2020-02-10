@@ -73,51 +73,34 @@ export class BookFormComponent implements OnInit {
 
   onSave() {
     const bookForm = this.form;
-    
+    let result;
+
     if (this.isNew)
-      this.add(bookForm);
+      result = this.bookService.add(bookForm.value);
     else 
-      this.edit(bookForm);
+      result = this.bookService.edit(bookForm.value);
     
    
-    // result.subscribe(data => this.navigateBack(),
-    // err => {
-    //   alert("Ocorreu um erro.");
-    // });
+    result.subscribe(
+    data => { 
+      this.toastr.info('Alteração realizada com sucesso!', 'Registro de Livros');     
+      this.form.markAsUntouched();
+      this.markFormAsPristine(); 
+      this.bookService.refreshList();          
+    },
+    err => {
+      alert("Ocorreu um erro."); 
+    });
   }
 
-  // add book
-  add(form: FormGroup): void {    
-    form.value.id = 0;
-    var result = this.bookService.add(form.value).subscribe();//.pipe(
-      
-    // )
-      // res => {
-      //   this.spinner.hide();
-      //   this.toastr.success("Salvo com sucesso!", "Registro de Livros");      
-      //   this.form.reset();
-      // },
-      // (errorResponse: HttpErrorResponse) => {
-      //   this.handlerError.handlerError(errorResponse);
-      // });
+  markFormAsPristine(){
+    Object.keys(this.form.controls).forEach(field => {        
+      const control = this.form.get(field);
+      control.markAsPristine();      
+    })
   }
-
-  // edit book
-  edit(form: FormGroup): void {
-    console.log("edit");
-    console.log(form.value);
-    this.bookService.edit(form.value).subscribe(
-      res => {
-    
-        this.toastr.info('Alteração realizada com sucesso!', 'Registro de Livros');
-        this.form.reset();
-      },
-      err => {
-        console.log(err);
-      }
-    )
-  }
-
+  
+ 
   // verifica se determinado campo é invalido e se foi tocado
   checkValidTouched(field: string) {
     var input = this.form.get(field);

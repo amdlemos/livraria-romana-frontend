@@ -4,6 +4,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
 import { BookService } from 'src/app/_services/book.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-book-detail',
@@ -19,7 +20,8 @@ export class BookDetailComponent implements OnInit, OnDestroy {
 
   constructor(private router: Router,
     private route: ActivatedRoute,
-    private bookService: BookService) { }
+    private bookService: BookService,
+    private toastr: ToastrService,) { }
 
 
   ngOnInit() {    
@@ -39,15 +41,27 @@ export class BookDetailComponent implements OnInit, OnDestroy {
     this.router.navigate(['/book', this.bookIndex, 'edit']);
   }
 
+  onCancel() {
+    this.navigateBack();
+  }
+
+  private navigateBack() {
+    this.router.navigate(['/book']);
+  }
+
   onDelete(){
     // refatorar
     if (confirm("Você tem certeza que deseja excluir o livro: " + this.selectedBook.title + "?")) {
       this.bookService.delete(this.bookIndex)
-        .toPromise().then(
-          data => this.router.navigate(['book']),
+        .subscribe(
+          data => {            
+            this.bookService.refreshList();
+            this.toastr.success("Livro excluido com sucesso.")
+          },
           err => {
             alert("Livro não removido.");
-          });
+          }
+        );
     }
   }
 

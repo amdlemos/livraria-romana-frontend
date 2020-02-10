@@ -1,4 +1,4 @@
-<table class="striped" *ngIf="books$ | async as books; else loadingError">
+<table class="striped" >
   <thead>
     <tr>
       <th>Titulo</th>
@@ -7,7 +7,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let book of this.books" [routerLink]="[book.id]" routerLinkActive="active">
+    <tr *ngFor="let book of this.books$" [routerLink]="[book.id]" routerLinkActive="active">
       <td>{{ book.author }}</td>
       <td>{{ book.title }}</td>
       <td>{{ book.amount }}</td>
@@ -23,7 +23,7 @@
 
 
 <ng-template #loadingError>
-  <div *ngIf="error$ | async; else loading">
+  <div *ngIf="error$">
     Erro ao carregar, tente novamente mais tarde.
   </div>
   <ng-template #loading>
