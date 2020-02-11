@@ -3,6 +3,7 @@
     <tr>
       <th>Titulo</th>
       <th>Autor</th>
+      <th>Editora</th>
       <th>Quantidade</th>
     </tr>
   </thead>
@@ -10,6 +11,7 @@
     <tr *ngFor="let book of this.books$" [routerLink]="[book.id]" routerLinkActive="active">
       <td>{{ book.author }}</td>
       <td>{{ book.title }}</td>
+      <td>{{ book.publishingCompany }}</td>
       <td>{{ book.amount }}</td>
     </tr>
   </tbody>
@@ -20,13 +22,3 @@
     <i class="material-icons">add</i>
   </a>
 </div>
-
-
-<ng-template #loadingError>
-  <div *ngIf="error$">
-    Erro ao carregar, tente novamente mais tarde.
-  </div>
-  <ng-template #loading>
-    <span>Carregando...</span>
-  </ng-template>
-</ng-template>

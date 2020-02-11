@@ -30,7 +30,8 @@ export class HttpHandlerError {
                 this.toastr.error(element.message)
               });              
             }else{
-              console.log("Erro inesperado, verifique o log.");
+              this.toastr.error("Por favor, tente em alguns instantes.")
+              console.log("Erro inesperado, provavelmente o servidor esteja fora do ar.");
             }           
         }
       }
