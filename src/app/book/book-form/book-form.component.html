@@ -1,86 +1,73 @@
 <h5>{{ title }}</h5>
-<div class="row" *ngIf="book">
-    <div class="card-panel">
-        <form class="form-horizontal" [formGroup]="form" (ngSubmit)="onSave()">
+<div class="row card-panel" *ngIf="book">
 
-            <!-- Form Group -->
-            <div class="form-group">
+    <form class="col s12" [formGroup]="form">
+        <!-- Form Group -->
+        <input id="id" type="hidden" class="form-control" formControlName="id" [(ngModel)]="book.id">
 
-                <input id="id" type="hidden" class="form-control" formControlName="id" [(ngModel)]="book.id">
+        <!-- Author -->
+        <div class="row">
+            <div class="input-field col s12" [ngClass]="applyCssError('author')">
+                <input id="username" type="text" class="validate" formControlName="author" [(ngModel)]="book.author">
+                <label for="author" class="active">Autor</label>
+                <!-- CSS Error -->
+                <app-field-error-control [showError]="checkValidTouched('author')" msgError="Autor é obrigatório.">
+                </app-field-error-control>
+            </div>
+        </div>
 
-                <!-- Author -->
-                <div class="form-group" [ngClass]="applyCssError('author')">
-                    <div class="col-sm-12">
-                        <label for="author" class="control-label">Autor</label>
-                    </div>
-                    <div class="col-sm-12">
-                        <input id="username" type="text" class="form-control" formControlName="author"
-                            [(ngModel)]="book.author">
-                        <!-- CSS Error -->
-                        <app-field-error-control [showError]="checkValidTouched('author')"
-                            msgError="Autor é obrigatório.">
-                        </app-field-error-control>
-                    </div>
-                </div>
+        <!-- Titulo -->
+        <div class="row">
+            <div class="input-field col s12" [ngClass]="applyCssError('title')">
+                <input id="title" type="text" class="form-control" formControlName="title" [(ngModel)]="book.title">
+                <label for="title" class="active">Titulo</label>
+                <!-- CSS Error -->
+                <app-field-error-control [showError]="checkValidTouched('title')" msgError="Titulo é obrigatório.">
+                </app-field-error-control>
+            </div>
+        </div>
 
-                <!-- Titulo -->
-                <div class="form-group" [ngClass]="applyCssError('title')">
-                    <div class="col-sm-12">
-                        <label for="title" class="control-label">Titulo</label>
-                    </div>
-                    <div class="col-sm-12">
-                        <input id="title" type="text" class="form-control" formControlName="title"
-                            [(ngModel)]="book.title">
-                        <!-- CSS Error -->
-                        <app-field-error-control [showError]="checkValidTouched('title')"
-                            msgError="Titulo é obrigatório.">
-                        </app-field-error-control>
-                    </div>
-                </div>
+        <!-- Editora -->
+        <div class="row">
+            <div class="input-field col s12" [ngClass]="applyCssError('publishingCompany')">
+                <input id="publishingCompany" type="text" class="form-control" formControlName="publishingCompany"
+                    [(ngModel)]="book.publishingCompany">
+                <label for="publishingCompany" class="active">Editora</label>
+            </div>
+        </div>
 
-                <!-- Editora -->
-                <div class="form-group" [ngClass]="applyCssError('publishingCompany')">
-                    <div class="col-sm-12">
-                        <label for="publishingCompany" class="control-label">Editora</label>
-                    </div>
-                    <div class="col-sm-12">
-                        <input id="publishingCompany" type="text" class="form-control"
-                            formControlName="publishingCompany" [(ngModel)]="book.publishingCompany">
+        <!-- ISBN -->
+        <div class="row">
+            <div class="input-field col s12" [ngClass]="applyCssError('isbn')">
+                <input id="isbn" type="text" class="form-control" formControlName="isbn"
+                    placeholder="ISBN 978-85-333-0227-3" [(ngModel)]="book.isbn">
+                <label for="isbn" class="active">ISBN</label>
+            </div>
 
-                    </div>
-                </div>
+        </div>
 
-                <!-- ISBN -->
-                <div class="form-group" [ngClass]="applyCssError('isbn')">
-                    <div class="col-sm-12">
-                        <label for="isbn" class="control-label">ISBN</label>
+        <!-- Ano de Publicação -->
+        <div class="row">
+            <div class="input-field col s12" [ngClass]="applyCssError('publicationYear')">
+                <input id="publicationYear" type="text" class="form-control" formControlName="publicationYear"
+                    placeholder="Exemplo: 2015" [(ngModel)]="book.publicationYear">
+                <label for="publicationYear" class="active">Ano de Publicação</label>
+            </div>
+        </div>
+        
+        <!-- Submit -->
+        <div class="row">
+            <div class="card-action">
+                <div class="row">
+                    <div class="left-align col s3">
+                        <button type="button" (click)="onSave()" class="btn btn-primary"
+                            [disabled]="!form.valid">Salvar</button>
                     </div>
-                    <div class="col-sm-12">
-                        <input id="isbn" type="text" class="form-control" formControlName="isbn"
-                            placeholder="ISBN 978-85-333-0227-3" [(ngModel)]="book.isbn">
-                    </div>
-                </div>
-
-                <!-- Ano de Publicação -->
-                <div class="form-group" [ngClass]="applyCssError('publicationYear')">
-                    <div class="col-sm-12">
-                        <label for="publicationYear" class="control-label">Ano de Publicação</label>
-                    </div>
-                    <div class="col-sm-12">
-                        <input id="publicationYear" type="text" class="form-control" formControlName="publicationYear"
-                            placeholder="Exemplo: 2015" [(ngModel)]="book.publicationYear">
+                    <div clas="right-align col s9">
+                        <a class="waves-effect waves-light btn blue" (click)="onCancel()">Cancelar</a>
                     </div>
                 </div>
             </div>
-
-            <!-- Submit -->
-            <div class="form-group">
-                <div class="col-sm-12">
-                    <button type="submit" (click)="onSave()" class="btn btn-primary"
-                        [disabled]="!form.valid">Salvar</button>
-                    <a class="waves-effect waves-light btn red" (click)="onCancel()">Cancelar</a>
-                </div>
-            </div>
-        </form>
-    </div>
+        </div>
+    </form>
 </div>

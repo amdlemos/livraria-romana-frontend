@@ -57,6 +57,7 @@ export class BookDetailComponent implements OnInit, OnDestroy {
           data => {            
             this.bookService.refreshList();
             this.toastr.success("Livro excluido com sucesso.")
+            this.router.navigate(["book"]);
           },
           err => {
             alert("Livro não removido.");

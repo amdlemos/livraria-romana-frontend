@@ -9,9 +9,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 // ngx-toastr
 import { ToastrModule } from 'ngx-toastr';
-import { ModalModule } from 'ngx-bootstrap/modal';
 import { NgxSpinnerModule } from 'ngx-spinner';
-import { MaterializeModule } from 'angular2-materialize';
 
 // app components
 import { AppComponent } from './app.component';
@@ -45,17 +43,15 @@ import { HttpHandlerError } from './_services/http-handler-error.service';
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,    
-    HttpClientModule,     
-    //MaterializeModule,
+    HttpClientModule,         
     NgxSpinnerModule,
     ToastrModule.forRoot({      
       positionClass: 'toast-center-center',
       timeOut: 0, 
       closeButton: true,       
-      }),
-      ModalModule.forRoot(),
+      }),    
     ReactiveFormsModule,    
-    AppRouting, ModalModule.forRoot()
+    AppRouting,
   ],
   exports: [RouterModule],
   declarations: [

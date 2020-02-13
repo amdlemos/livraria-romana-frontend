@@ -12,16 +12,23 @@
           <p>ISBN: {{ selectedBook?.isbn }}</p>
         </div>
         <div class="card-action">
-          <a class="waves-effect waves-light btn " (click)="onEdit()"> 
-            Editar
-          </a>
-          <a class="waves-effect waves-light btn blue " (click)="onCancel()">
-            Cancelar
-          </a>
-          <a class="waves-effect waves-light btn red " (click)="onDelete()">
-            Excluir
-          </a>
-        
+          <div class="row">
+            <div class="left-align col s3">
+              <a class="waves-effect waves-light btn " (click)="onEdit()">
+                Editar
+              </a>
+            </div>
+            <div class="left-align col s3">
+              <a class="waves-effect waves-light btn red " (click)="onDelete()">
+                Excluir
+              </a>
+            </div>
+            <div class="right-align col s6">
+              <a class="waves-effect waves-light btn blue " (click)="onCancel()">
+                Cancelar
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </div>

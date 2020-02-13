@@ -81,7 +81,7 @@ export class BookFormComponent implements OnInit {
       result = this.bookService.edit(bookForm.value);
     
    
-    result.subscribe(
+    result.pipe().subscribe(
     data => { 
       this.toastr.info('Alteração realizada com sucesso!', 'Registro de Livros');     
       this.form.markAsUntouched();

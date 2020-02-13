@@ -1,53 +1,47 @@
 // angular
 import { NgForm } from '@angular/forms';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-// rxjs
-import { take } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
+
 // app
-import { User } from '../_models/user.model';
 import { CrudService } from './crud.service';
+import { User } from '../_models/user.model';
 import { environment } from 'src/environments/environment';
 import { HttpHandlerError } from './http-handler-error.service';
 
-const httpOptions = {
-  headers: new HttpHeaders({
-    'Content-Type': 'application/json; charset=utf-8'
-  })
-}
 
 @Injectable()
-export class UserService extends CrudService<User> {  
-  
-  private readonly API = `${environment.API}user`;  
+export class UserService extends CrudService<User> {
+
+
   list: User[];
   formData: User;
-  
+
   constructor(
-    protected http:HttpClient,
+    protected http: HttpClient,
     protected handlerError: HttpHandlerError) {
     super(http, `${environment.API}user`, handlerError);
   }
 
-  refreshList(){
+  refreshList() {
     this.getAll().toPromise().then(res => this.list = res as User[]);
   }
 
-    resetForm(form?:NgForm){    
-    if(form!=null)
-      form.form.reset();    
- 
-    this.formData = {      
-      id:0,
-      username:'',
-      password:'',
-      email:'',
-      token:'',      
-    }  
+  resetForm(form?: NgForm) {
+    if (form != null)
+      form.form.reset();
+
+    this.formData = {
+      id: 0,
+      username: '',
+      password: '',
+      email: '',
+      token: '',
+    }
     this.nomeFocus();
   }
 
-  nomeFocus(){
+  nomeFocus() {
     var input = document.getElementsByName("username")[0];
     input.focus();
   }

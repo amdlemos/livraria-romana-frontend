@@ -1,6 +1,7 @@
 <table class="striped" >
   <thead>
     <tr>
+      <th>#</th>
       <th>Titulo</th>
       <th>Autor</th>
       <th>Editora</th>
@@ -9,6 +10,7 @@
   </thead>
   <tbody>
     <tr *ngFor="let book of this.books$" [routerLink]="[book.id]" routerLinkActive="active">
+      <td>{{ book.id }}</td>
       <td>{{ book.author }}</td>
       <td>{{ book.title }}</td>
       <td>{{ book.publishingCompany }}</td>

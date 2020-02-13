@@ -22,8 +22,6 @@ export class CrudService<T> {
     protected handlerError: HttpHandlerError) {}
 
   add(record: T) {        
-    // return this.http.post<T>(this.API_URL, record, httpOptions).pipe(take(1));          
-    console.log(record)
     return this.http.post<T>(this.API_URL, record, httpOptions).pipe(
       take(1),
       catchError(error => {         
