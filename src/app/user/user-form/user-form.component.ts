@@ -1,12 +1,14 @@
+import { ActivatedRoute, Router } from '@angular/router';
+import { User } from './../../_models/user.model';
 import { catchError } from 'rxjs/operators';
 // angular
-import { Component, OnInit, ElementRef } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { Component, OnInit, ElementRef, OnDestroy } from '@angular/core';
+import { NgForm, FormGroup, FormBuilder, Validators } from '@angular/forms';
 // ngx-toastr
 import { ToastrService } from 'ngx-toastr';
 // app
 import { UserService } from 'src/app/_services/user.service';
-import { empty } from 'rxjs';
+import { empty, Subscription, Subject, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-usuario-form',
@@ -14,56 +16,120 @@ import { empty } from 'rxjs';
   styleUrls: []
 })
 
-export class UserFormComponent implements OnInit {
+export class UserFormComponent implements OnInit, OnDestroy {
   
-  constructor(private service: UserService, private toastr: ToastrService, private el: ElementRef) { }
+  form: FormGroup;
+  private userId: number;
+  private title: string;
+  private isNew: boolean = true;
+  private user: User;
+  private subscription: Subscription;
+  error$ = new Subject<boolean>();
+  
+  constructor(
+    private formBuilder: FormBuilder,
+    private userService: UserService, 
+    private toastr: ToastrService, 
+    private route: ActivatedRoute,
+    private router: Router) { }
 
   ngOnInit(form?:NgForm) {    
-    this.service.resetForm();
+    this.subscription = this.route.params.subscribe(
+      (params: any) => {
+        // Verifica se é inclusão ou edição  
+        this.userId = params['id'];
+        if (this.userId != null) {
+          this.isNew = false;
+          this.userService.get(this.userId).toPromise()
+            .then(data => this.user = data);
+          this.title = 'Editar';
+        } else {
+          this.isNew = true;
+          this.title = 'Novo';
+          this.user = new User();
+        }
+
+        this.initForm();
+      })
   }
 
-  resetForm(form: NgForm)
-  {    
-    this.service.resetForm(form)
+  initForm() {
+    console.log("init")
+    this.form = this.formBuilder.group({
+      id: [0],
+      username: ["", Validators.required],
+      password: ["", Validators.required],
+      role: [""],
+      email: [""], 
+      token: [""]      
+    })
   }
 
-  onSubmit(form: NgForm){      
-    console.log("Submit usuário")
-    if(form.value.id == 0 || form.value.id == null)  {      
-      form.value.id = 0;
-      this.add(form);
-    }      
+  onSave() {
+    const userForm = this.form;
+    let result;
+
+    if (this.isNew)
+      result = this.userService.add(userForm.value);
     else
-      this.edit(form)
-  }
+      result = this.userService.edit(userForm.value);
 
-  add(form: NgForm): void {       
-    console.log(form);   
-    this.service.add(form.value)
-    .pipe(     
-      catchError(error => empty())      
-    )
-    .subscribe(
-      res =>{        
-        this.service.resetForm(form);
-        this.toastr.success("Salvo com sucesso!", "Registro de Usuário");
-        this.service.refreshList();
-      }, error => {
-        console.log(error.status);
-        this.toastr.error("erro");
-      }        
-    );
-  }
 
-  edit(form: NgForm) {    
-    this.service.edit(form.value).subscribe(
-      res => {        
-        this.toastr.info('Alteração realizada com sucesso!', 'Registro de Usuário');
-        this.service.refreshList();
+    result.pipe().subscribe(
+      data => {
+        this.toastr.info('Alteração realizada com sucesso!', 'Registro de Livros');
+        this.form.markAsUntouched();
+        this.markFormAsPristine();
+        this.userService.refreshList();
       },
       err => {
-        console.log(err);
-      }
-    )
+        alert("Ocorreu um erro.");
+      });
   }
+
+  markFormAsPristine() {
+    Object.keys(this.form.controls).forEach(field => {
+      const control = this.form.get(field);
+      control.markAsPristine();
+    })
+  }
+
+  // aplica css erro para inputs
+  applyCssError(field: string) {
+    if (field != null) {
+      return {
+        'has-error': this.checkValidTouched(field),
+        'has-feedback': this.checkValidTouched(field)
+      }
+    }
+  }
+
+  // verifica se determinado campo é invalido e se foi tocado
+  checkValidTouched(field: string) {
+    var input = this.form.get(field);
+    return !input.valid && input.touched;
+  }
+
+ 
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
+
+  onCancel() {
+    this.navigateBack();
+  }
+
+  private navigateBack() {
+    this.router.navigate(['/user']);
+  }
+
+  canDeactivate(): Observable<boolean> | boolean {
+    if (this.form.dirty) {
+      return confirm('Existem dados que não foram salvos e serão perdidos, você deseja continuar?');
+    }
+    return true;
+  }
+
+  
 }

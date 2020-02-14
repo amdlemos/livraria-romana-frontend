@@ -1,3 +1,4 @@
+import { Subject } from 'rxjs';
 // angular
 import { Component, OnInit } from '@angular/core';
 // ngx-toastr
@@ -14,28 +15,18 @@ import { UserService } from 'src/app/_services/user.service';
 })
 export class UserListComponent implements OnInit {
 
-  constructor(private service: UserService, private toastr:ToastrService ) { }
+  users: User[];  
+  
+  constructor(
+    private userService: UserService ) { }
 
   ngOnInit() {    
-    this.service.refreshList();
-  }
+    this.userService.getAll().subscribe(data => this.users = data);
 
-  populateForm(usuario: User){     
-    this.service.formData = Object.assign({}, usuario);
-    this.service.nomeFocus();    
-  }
-
-  onDelete(UsuarioId) {    
-    if(confirm('Tem certeza que deseja apagar o registro?')){
-      this.service.delete(UsuarioId)
-      .subscribe(res => {
-        this.service.refreshList();
-        this.toastr.warning("Excluido com sucesso", "Registro de Usuários");
-        this.service
-      },
-        err => {
-          console.log(err);
-        })
-    }
-  }
+    this.userService.usersChanged.subscribe(
+      (observable: any) => observable.subscribe(
+        data => this.users = data
+      )
+    )
+  }  
 }

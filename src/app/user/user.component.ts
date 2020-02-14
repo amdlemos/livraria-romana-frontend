@@ -11,6 +11,7 @@ export class UserComponent implements OnInit {
   constructor(private authService: AuthService) { }
 
   ngOnInit() {
+    console.log("init usercomponent")
     this.authService.ifLoggedShowNavBar();
   }
 

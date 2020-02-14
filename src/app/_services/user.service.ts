@@ -1,3 +1,5 @@
+import { Observable } from 'rxjs';
+import { EventEmitter } from '@angular/core';
 // angular
 import { NgForm } from '@angular/forms';
 import { Injectable } from '@angular/core';
@@ -13,9 +15,7 @@ import { HttpHandlerError } from './http-handler-error.service';
 @Injectable()
 export class UserService extends CrudService<User> {
 
-
-  list: User[];
-  formData: User;
+  usersChanged = new EventEmitter<Observable<User[]>>();
 
   constructor(
     protected http: HttpClient,
@@ -24,25 +24,8 @@ export class UserService extends CrudService<User> {
   }
 
   refreshList() {
-    this.getAll().toPromise().then(res => this.list = res as User[]);
+    this.usersChanged.emit(this.getAll());
   }
 
-  resetForm(form?: NgForm) {
-    if (form != null)
-      form.form.reset();
 
-    this.formData = {
-      id: 0,
-      username: '',
-      password: '',
-      email: '',
-      token: '',
-    }
-    this.nomeFocus();
-  }
-
-  nomeFocus() {
-    var input = document.getElementsByName("username")[0];
-    input.focus();
-  }
 }

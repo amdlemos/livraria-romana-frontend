@@ -34,33 +34,33 @@ export class BookFormComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private bookService: BookService,        
+    private bookService: BookService,
     private toastr: ToastrService,
     private route: ActivatedRoute,
     private router: Router) { }
 
-  ngOnInit() {        
+  ngOnInit() {
     // Trata os parametros da rota
     this.subscription = this.route.params.subscribe(
-      (params: any) => {        
+      (params: any) => {
         // Verifica se é inclusão ou edição  
-        this.bookId = params['id'];              
-        if (this.bookId != null) {         
+        this.bookId = params['id'];
+        if (this.bookId != null) {
           this.isNew = false;
           this.bookService.get(this.bookId).toPromise()
             .then(data => this.book = data);
           this.title = 'Editar';
-        }else {
+        } else {
           this.isNew = true;
           this.title = 'Novo';
           this.book = new Book();
         }
 
-        this.initForm();       
-    })   
+        this.initForm();
+      })
   }
 
-  initForm(){    
+  initForm() {
     this.form = this.formBuilder.group({
       id: [0],
       author: ["", Validators.required],
@@ -68,7 +68,7 @@ export class BookFormComponent implements OnInit {
       publishingCompany: [""],
       isbn: [""],
       publicationYear: [""]
-    })    
+    })
   }
 
   onSave() {
@@ -77,35 +77,29 @@ export class BookFormComponent implements OnInit {
 
     if (this.isNew)
       result = this.bookService.add(bookForm.value);
-    else 
+    else
       result = this.bookService.edit(bookForm.value);
-    
-   
+
+
     result.pipe().subscribe(
-    data => { 
-      this.toastr.info('Alteração realizada com sucesso!', 'Registro de Livros');     
-      this.form.markAsUntouched();
-      this.markFormAsPristine(); 
-      this.bookService.refreshList();          
-    },
-    err => {
-      alert("Ocorreu um erro."); 
-    });
+      data => {
+        this.toastr.info('Alteração realizada com sucesso!', 'Registro de Livros');
+        this.form.markAsUntouched();
+        this.markFormAsPristine();
+        this.bookService.refreshList();
+      },
+      err => {
+        alert("Ocorreu um erro.");
+      });
   }
 
-  markFormAsPristine(){
-    Object.keys(this.form.controls).forEach(field => {        
+  markFormAsPristine() {
+    Object.keys(this.form.controls).forEach(field => {
       const control = this.form.get(field);
-      control.markAsPristine();      
+      control.markAsPristine();
     })
   }
-  
- 
-  // verifica se determinado campo é invalido e se foi tocado
-  checkValidTouched(field: string) {
-    var input = this.form.get(field);
-    return !input.valid && input.touched;
-  }
+
 
   // aplica css erro para inputs
   applyCssError(field: string) {
@@ -115,7 +109,15 @@ export class BookFormComponent implements OnInit {
         'has-feedback': this.checkValidTouched(field)
       }
     }
-  }   
+  }
+
+  // verifica se determinado campo é invalido e se foi tocado
+  checkValidTouched(field: string) {
+    var input = this.form.get(field);
+    return !input.valid && input.touched;
+  }
+
+
 
   formPopulation(book: Book) {
     this.form.patchValue({

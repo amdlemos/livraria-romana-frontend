@@ -1,3 +1,4 @@
+import { UserFormGuard } from './user/user-form/user-form.guard';
 import { NotFoundComponent } from './shared/not-found.component';
 // angular
 import { BrowserModule } from '@angular/platform-browser';
@@ -37,6 +38,7 @@ import { FormDebugComponent } from './form-debug/form-debug.component';
 import { FieldErrorControlComponent } from './field-error-control/field-error-control.component';
 import { HeaderComponent } from './shared/header/header.component';
 import { HttpHandlerError } from './_services/http-handler-error.service';
+import { UserDetailComponent } from './user/user-detail/user-detail.component';
 
 @NgModule({
   imports: [
@@ -71,10 +73,12 @@ import { HttpHandlerError } from './_services/http-handler-error.service';
     BookDetailComponent,
     BookListComponent,
     HeaderComponent,
+    UserDetailComponent,
   ],   
   bootstrap: [AppComponent],
   providers: [ 
     BookFormGuard,   
+    UserFormGuard,
     CrudService,
     BookService,
     UserService,    

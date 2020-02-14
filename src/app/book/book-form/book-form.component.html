@@ -2,13 +2,13 @@
 <div class="row card-panel" *ngIf="book">
 
     <form class="col s12" [formGroup]="form">
-        <!-- Form Group -->
-        <input id="id" type="hidden" class="form-control" formControlName="id" [(ngModel)]="book.id">
+        <!-- Hidden -->
+        <input id="id" type="hidden" class="validate" formControlName="id" [(ngModel)]="book.id">
 
         <!-- Author -->
         <div class="row">
             <div class="input-field col s12" [ngClass]="applyCssError('author')">
-                <input id="username" type="text" class="validate" formControlName="author" [(ngModel)]="book.author">
+                <input id="author" type="text" class="validate" formControlName="author" [(ngModel)]="book.author">
                 <label for="author" class="active">Autor</label>
                 <!-- CSS Error -->
                 <app-field-error-control [showError]="checkValidTouched('author')" msgError="Autor é obrigatório.">
@@ -19,7 +19,7 @@
         <!-- Titulo -->
         <div class="row">
             <div class="input-field col s12" [ngClass]="applyCssError('title')">
-                <input id="title" type="text" class="form-control" formControlName="title" [(ngModel)]="book.title">
+                <input id="title" type="text" class="validate" formControlName="title" [(ngModel)]="book.title">
                 <label for="title" class="active">Titulo</label>
                 <!-- CSS Error -->
                 <app-field-error-control [showError]="checkValidTouched('title')" msgError="Titulo é obrigatório.">
@@ -30,7 +30,7 @@
         <!-- Editora -->
         <div class="row">
             <div class="input-field col s12" [ngClass]="applyCssError('publishingCompany')">
-                <input id="publishingCompany" type="text" class="form-control" formControlName="publishingCompany"
+                <input id="publishingCompany" type="text" class="validate" formControlName="publishingCompany"
                     [(ngModel)]="book.publishingCompany">
                 <label for="publishingCompany" class="active">Editora</label>
             </div>
@@ -39,7 +39,7 @@
         <!-- ISBN -->
         <div class="row">
             <div class="input-field col s12" [ngClass]="applyCssError('isbn')">
-                <input id="isbn" type="text" class="form-control" formControlName="isbn"
+                <input id="isbn" type="text" class="validate" formControlName="isbn"
                     placeholder="ISBN 978-85-333-0227-3" [(ngModel)]="book.isbn">
                 <label for="isbn" class="active">ISBN</label>
             </div>
@@ -49,13 +49,13 @@
         <!-- Ano de Publicação -->
         <div class="row">
             <div class="input-field col s12" [ngClass]="applyCssError('publicationYear')">
-                <input id="publicationYear" type="text" class="form-control" formControlName="publicationYear"
+                <input id="publicationYear" type="text" class="validate" formControlName="publicationYear"
                     placeholder="Exemplo: 2015" [(ngModel)]="book.publicationYear">
                 <label for="publicationYear" class="active">Ano de Publicação</label>
             </div>
         </div>
         
-        <!-- Submit -->
+        <!-- Buttons -->
         <div class="row">
             <div class="card-action">
                 <div class="row">
