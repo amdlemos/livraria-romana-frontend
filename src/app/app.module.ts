@@ -39,6 +39,7 @@ import { FieldErrorControlComponent } from './field-error-control/field-error-co
 import { HeaderComponent } from './shared/header/header.component';
 import { HttpHandlerError } from './_services/http-handler-error.service';
 import { UserDetailComponent } from './user/user-detail/user-detail.component';
+import { BookStockFormComponent } from './book/book-stock-form/book-stock-form.component';
 
 @NgModule({
   imports: [
@@ -74,6 +75,7 @@ import { UserDetailComponent } from './user/user-detail/user-detail.component';
     BookListComponent,
     HeaderComponent,
     UserDetailComponent,
+    BookStockFormComponent,
   ],   
   bootstrap: [AppComponent],
   providers: [ 

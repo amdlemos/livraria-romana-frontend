@@ -17,6 +17,7 @@ import { BookFormGuard } from './book/book-form/book-form-guard';
 import { UserFormComponent } from './user/user-form/user-form.component';
 import { UserDetailComponent } from './user/user-detail/user-detail.component';
 import { UserFormGuard } from './user/user-form/user-form.guard';
+import { BookStockFormComponent } from './book/book-stock-form/book-stock-form.component';
 
 
 const APP_ROUTES: Routes = [
@@ -26,7 +27,7 @@ const APP_ROUTES: Routes = [
    
     {
         path: 'user', component: UserComponent, canActivate: [AuthGuard], children: [
-            { path: 'new', component: UserFormComponent, canActivate: [AuthGuard], canDeactivate: [UserFormGuard] },
+            { path: 'new', component: UserFormComponent, canActivate: [AuthGuard], canDeactivate: [UserFormGuard] },            
             { path: ':id/edit', component: UserFormComponent, canDeactivate: [UserFormGuard] },
             { path: ':id', component: UserDetailComponent }
            
@@ -36,6 +37,7 @@ const APP_ROUTES: Routes = [
     {
         path: 'book', component: BookComponent, canActivate: [AuthGuard], children: [
             { path: 'new', component: BookFormComponent, canActivate: [AuthGuard], canDeactivate: [BookFormGuard] },
+            { path: ':id/editStock', component: BookStockFormComponent, canDeactivate: [UserFormGuard] },
             { path: ':id/edit', component: BookFormComponent, canDeactivate: [BookFormGuard] },
             { path: ':id', component: BookDetailComponent }
            

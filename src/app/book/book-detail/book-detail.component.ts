@@ -41,6 +41,10 @@ export class BookDetailComponent implements OnInit, OnDestroy {
     this.router.navigate(['/book', this.bookIndex, 'edit']);
   }
 
+  onEditStock() {
+    this.router.navigate(['/book', this.bookIndex, 'editStock']);
+  }
+
   onCancel() {
     this.navigateBack();
   }
