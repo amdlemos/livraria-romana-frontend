@@ -1,1 +1,45 @@
-<p>book-stock-form works!</p>
+<h5>{{ title }}</h5>
+<div class="row card-panel" *ngIf="bookUpdateAmount">
+    <form class="col s12" [formGroup]="form">
+        <!-- Hidden -->
+        <input id="id" type="hidden" class="validate" formControlName="id" [(ngModel)]="bookUpdateAmount.id">
+
+        <!-- Quantidade -->
+        <div class="row">
+            <div class="input-field col s12">
+                <input id="amount" type="text" class="validate" formControlName="amount" [(ngModel)]="bookUpdateAmount.amount">
+                <label for="amount" class="active">Quantidade em Estoque</label>
+            </div>
+        </div>
+
+        <!-- Remover -->
+        <div class="row">
+            <div class="input-field col s12">
+                <input id="removeToAmount" type="text" class="validate" formControlName="removeToAmount" [(ngModel)]="bookUpdateAmount.removeToAmount">
+                <label for="removeToAmount" class="active">Quantidade de Livros Vendidos</label>
+            </div>
+        </div>
+
+        <!-- Adicionar -->
+        <div class="row">
+            <div class="input-field col s12">
+                <input id="addToAmount" type="text" class="validate" formControlName="addToAmount" [(ngModel)]="bookUpdateAmount.addToAmount">
+                <label for="addToAmount" class="active">Quantidade de Livros Adquiridos</label>
+            </div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="row">
+            <div class="card-action">
+                <div class="row">
+                    <div class="left-align col s3">
+                        <button type="button" (click)="onSave()" class="btn btn-primary">Salvar</button>
+                    </div>
+                    <div clas="right-align col s9">
+                        <a class="waves-effect waves-light btn blue" (click)="onCancel()">Voltar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

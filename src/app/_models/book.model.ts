@@ -6,4 +6,5 @@ export class Book {
     publishingCompany: string;
     isbn: string;
     publicationYear: number;
+    amount: number;
 }

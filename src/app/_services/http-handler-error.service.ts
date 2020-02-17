@@ -12,17 +12,16 @@ export class HttpHandlerError {
     handlerError(errorResponse: HttpErrorResponse) {
         switch(errorResponse.status){
           case 401:
-            alert("Você precisa estar logado para realizar essa operação.");
-            console.log("401");
+            alert("Você precisa estar logado para realizar essa operação.");            
             break;
           case 403:
-            alert("Você não possui permissão para realizar essa operação.");
-            console.log("403");
+            alert("Você não possui permissão para realizar essa operação.");            
             break;
           case 404:
-            alert("Página não encontrada.");
-            console.log("404")
+            alert("Página não encontrada.");            
             break;
+          case 415:
+            alert("Os dados enviados ao servidor são inválidos, entre em contato com o suporte.")
           default:
              // verifica se há erros do servidor que possam ser exibidos         
              if (errorResponse.error.hasNotifications) {                            

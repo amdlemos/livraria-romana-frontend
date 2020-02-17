@@ -1,6 +1,3 @@
-import { catchError } from 'rxjs/operators';
-import { HttpHandlerError } from './../../_services/http-handler-error.service';
-import { HttpErrorResponse } from '@angular/common/http';
 // angular
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit, OnDestroy } from '@angular/core';
@@ -139,7 +136,7 @@ export class BookFormComponent implements OnInit {
   }
 
   private navigateBack() {
-    this.router.navigate(['/book']);
+    this.router.navigate(['/book/' + this.bookId]);
   }
 
   canDeactivate(): Observable<boolean> | boolean {
